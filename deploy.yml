@@ -1,0 +1,19 @@
+- name: Uruchom aplikacje na serwerze
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Zainstaluj Dockera
+      apt:
+        name: docker.io
+        state: present
+        update_cache: true
+
+    - name: Uruchom usluge Docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Uruchom kontener z aplikacja
+      command: docker run -d -p 5000:5000 --name task-manager task-manager
